@@ -1,6 +1,6 @@
-# api
+# discord-science-app
 
-A CF worker that's is a REST API for handling discord app
+A CF worker that's is a REST API for handling a discord app
 
 ### Running locally
 
