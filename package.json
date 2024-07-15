@@ -6,6 +6,7 @@
 	"scripts": {
 		"deploy": "wrangler deploy",
 		"build": "wrangler deploy --dry-run --outdir=dist",
+		"tunnel": "cloudflared tunnel --url http://localhost:8787",
 		"clean": "rm -rf dist .turbo node_modules",
 		"register": "node --import tsx/esm ./src/register.ts",
 		"format": "prettier --write .",
