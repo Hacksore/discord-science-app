@@ -1,17 +1,18 @@
 // NOTE: this is from https://github.com/discord/cloudflare-sample-app/tree/main
 import { Hono } from "hono";
 import { InteractionResponseType, InteractionType } from "discord-interactions";
-import { DEBUG } from "./commands.js";
+import { BUTTON, DEBUG, LINK } from "./commands.js";
 import { Bindings, InteractionReply } from "./types.js";
 import { verifyDiscordRequest } from "./utils.js";
 
-const app = new Hono<{ Bindings: Bindings }>();
+const app = new Hono < { Bindings: Bindings } > ();
 
 app.get("/", (c) => {
   return new Response(`👋 ${c.env.DISCORD_APPLICATION_ID}`);
 });
 
-app.post("/", async (c) => {
+console.log("hello")
+app.post("/v2", async (c) => {
   const { isValid, interaction } = await server.verifyDiscordRequest(c);
 
   if (!isValid || !interaction) {
@@ -23,14 +24,52 @@ app.post("/", async (c) => {
       type: InteractionResponseType.PONG,
     });
   }
+    
+  console.log({ data: JSON.stringify(interaction) });
 
   if (interaction.type === InteractionType.MESSAGE_COMPONENT) {
     const payload = interaction as InteractionReply;
-    if (payload.data.custom_id === "click_one") {
+
+
+    if (payload.data.custom_id.startsWith("ggez_")) {
       return c.json({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-          content: `<@${payload.message.interaction_metadata.user.id}> clicked the button!, do it again 😂`,
+          content: `Someone clicked the button!, please don't do it again 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+please **stop** clicking the button, every time you do you lose vbux
+
+GUYS DONT COPY PASTE THIS INTO THE CHAT
+`,
           components: [
             {
               type: 1,
@@ -39,10 +78,23 @@ app.post("/", async (c) => {
                   type: 2,
                   label: "Don't Click Me!",
                   style: 4,
-                  custom_id: "click_one",
+                  custom_id: "ggez_1",
+                },
+                {
+                  type: 2,
+                  label: "Cancel",
+                  style: 1,
+                  custom_id: "ggez_2",
+                },
+                {
+                  type: 2,
+                  label: "Abort",
+                  style: 3,
+                  custom_id: "ggez_3",
                 },
               ],
             },
+
           ],
         },
       });
@@ -52,6 +104,14 @@ app.post("/", async (c) => {
   // https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-response-object-interaction-callback-data-structure
   if (interaction.type === InteractionType.APPLICATION_COMMAND) {
     const command = interaction.data.name.toLowerCase();
+    if (command === LINK.name.toLowerCase()) {
+      return c.json({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: `[${"█".repeat(1000)}](<https://discord.gg/2c2uBmMnbt>)`,
+        },
+      });
+    }
 
     if (command === DEBUG.name.toLowerCase()) {
       return c.json({
@@ -67,9 +127,32 @@ app.post("/", async (c) => {
                   type: 2,
                   label: "Don't Click Me!",
                   style: 1,
-                  custom_id: "click_one",
+                  custom_id: "ggez_one",
                 },
               ],
+            },
+          ],
+        },
+      });
+    }
+
+    if (command === BUTTON.name.toLowerCase()) {
+      return c.json({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content:
+            "This button is amazing but with great power comes great responsibility! 😂",
+          components: [
+            {
+              type: 1,
+              components: Array(5)
+                .fill(0)
+                .map((_, id) => ({
+                  type: 2,
+                  label: `button ${id}`,
+                  style: 1,
+                  custom_id: `ggez_${id}`,
+                })),
             },
           ],
         },
