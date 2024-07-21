@@ -7,6 +7,7 @@ import { verifyDiscordRequest } from "./utils.js";
 
 const app = new Hono < { Bindings: Bindings } > ();
 
+let clicked = 0;
 app.get("/", (c) => {
   return new Response(`👋 ${c.env.DISCORD_APPLICATION_ID}`);
 });
@@ -32,10 +33,11 @@ app.post("/v2", async (c) => {
 
 
     if (payload.data.custom_id.startsWith("ggez_")) {
+      clicked++;
       return c.json({
         type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
         data: {
-          content: `Someone clicked the button!, please don't do it again 
+          content: `.
 
 
 
@@ -66,9 +68,33 @@ app.post("/v2", async (c) => {
 
 
 
-please **stop** clicking the button, every time you do you lose vbux
 
-GUYS DONT COPY PASTE THIS INTO THE CHAT
+
+
+
+
+
+
+
+
+
+
+
+
+⢿⣿⣿⣿⣭⠹⠛⠛⠛⢿⣿⣿⣿⣿⡿⣿⠷⠶⠿⢻⣿⣛⣦⣙⠻⣿
+⣿⣿⢿⣿⠏⠀⠀⡀⠀⠈⣿⢛⣽⣜⠯⣽⠀⠀⠀⠀⠙⢿⣷⣻⡀⢿
+⠐⠛⢿⣾⣖⣤⡀⠀⢀⡰⠿⢷⣶⣿⡇⠻⣖⣒⣒⣶⣿⣿⡟⢙⣶⣮
+⣤⠀⠀⠛⠻⠗⠿⠿⣯⡆⣿⣛⣿⡿⠿⠮⡶⠼⠟⠙⠊⠁⠀⠸⢣⣿
+⣿⣷⡀⠀⠀⠀⠀⠠⠭⣍⡉⢩⣥⡤⠥⣤⡶⣒⠀⠀⠀⠀⠀⢰⣿⣿
+⣿⣿⡽⡄⠀⠀⠀⢿⣿⣆⣿⣧⢡⣾⣿⡇⣾⣿⡇⠀⠀⠀⠀⣿⡇⠃
+⣿⣿⣷⣻⣆⢄⠀⠈⠉⠉⠛⠛⠘⠛⠛⠛⠙⠛⠁⠀⠀⠀⠀⣿⡇⢸
+⢞⣿⣿⣷⣝⣷⣝⠦⡀⠀⠀⠀⠀⠀⠀⠀⡀⢀⠀⠀⠀⠀⠀⠛⣿⠈
+⣦⡑⠛⣟⢿⡿⣿⣷⣝⢧⡀⠀⠀⣶⣸⡇⣿⢸⣧⠀⠀⠀⠀⢸⡿⡆
+⣿⣿⣷⣮⣭⣍⡛⠻⢿⣷⠿⣶⣶⣬⣬⣁⣉⣀⣀⣁⡤⢴⣺⣾⣽⡇
+
+If you clicked the button again there will be concequences! 😂
+
+click counter: ${clicked}
 `,
           components: [
             {
